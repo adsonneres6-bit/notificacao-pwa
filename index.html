@@ -190,19 +190,44 @@
     }
 
     .label {
-      font-size: 19px;
+      font-size: 16px;
       color: #667386;
       letter-spacing: -0.3px;
       font-weight: 400;
     }
 
     .value {
-      font-size: 19px;
+      font-size: 16px;
       color: #15223a;
       letter-spacing: -0.3px;
       font-weight: 400;
       text-align: right;
       min-width: 80px;
+    }
+
+    .timeEditable {
+      border: none;
+      outline: none;
+      background: transparent;
+      font: inherit;
+      color: inherit;
+      width: 58px;
+      text-align: center;
+      padding: 0;
+      cursor: default;
+      user-select: none;
+      caret-color: transparent;
+    }
+
+    .timeEditable.red {
+      color: #f14938;
+      width: 58px;
+    }
+
+    .timeEditable.editing {
+      user-select: text;
+      caret-color: auto;
+      cursor: text;
     }
 
     #regionValue {
@@ -235,7 +260,7 @@
     </header>
 
     <section class="content">
-      <div class="turno-title">Turno:<span id="todayTitle"></span> 13:50 - 13:50</div>
+      <div class="turno-title">Turno:<span id="todayTitle"></span> <input class="timeEditable" id="timeTitleStart" value="13:50" readonly /> - <input class="timeEditable" id="timeTitleEnd" value="13:50" readonly /></div>
 
       <div class="date-accepted-row">
         <div class="timestamp"><span id="todayTimestamp"></span> 10:12</div>
@@ -245,7 +270,7 @@
       <div class="called">Você foi chamado para um próximo turno.</div>
 
       <div class="notice-box">
-        Por favor, chegue ao hub às <span class="red" id="noticeDate"></span> <span class="red">13:50</span> para começar a tarefa de hoje.
+        Por favor, chegue ao hub às <span class="red" id="noticeDate"></span> <input class="timeEditable red" id="timeNotice" value="13:50" readonly /> para começar a tarefa de hoje.
       </div>
 
       <div class="details">
@@ -259,11 +284,11 @@
         </div>
         <div class="detail-row">
           <div class="label">Horário do Turno</div>
-          <div class="value">13:50-13:50</div>
+          <div class="value"><input class="timeEditable" id="timeDetailStart" value="13:50" readonly />-<input class="timeEditable" id="timeDetailEnd" value="13:50" readonly /></div>
         </div>
         <div class="detail-row">
           <div class="label">Nome da região</div>
-          <div class="value"><input id="regionValue" value="Q-12" readonly /></div>
+          <div class="value"><input id="regionValue" value="S-2" readonly /></div>
         </div>
       </div>
     </section>
@@ -288,11 +313,69 @@
       const iso = `${yyyy}-${mm}-${dd}`;
       const br = `${dd}/${mm}`;
 
-      document.getElementById("todayTitle").textContent = iso;
-      document.getElementById("todayTimestamp").textContent = iso;
-      document.getElementById("shiftDate").textContent = iso;
-      document.getElementById("noticeDate").textContent = br;
+      if (!localStorage.getItem("savedDate")) {
+        localStorage.setItem("savedDate", iso);
+      }
+
+      const savedDate = localStorage.getItem("savedDate");
+
+      document.getElementById("todayTitle").textContent = savedDate;
+      document.getElementById("todayTimestamp").textContent = savedDate;
+      document.getElementById("shiftDate").textContent = savedDate;
+
+      const parts = savedDate.split("-");
+      document.getElementById("noticeDate").textContent = `${parts[2]}/${parts[1]}`;
     }
+
+    const timeInputs = Array.from(document.querySelectorAll(".timeEditable"));
+
+    function normalizeTime(value) {
+      const onlyNumbers = value.replace(/[^0-9]/g, "").slice(0, 4);
+      if (onlyNumbers.length <= 2) return onlyNumbers;
+      return onlyNumbers.slice(0, 2) + ":" + onlyNumbers.slice(2);
+    }
+
+    function syncAllTimes(value) {
+      const time = normalizeTime(value);
+
+      const savedTime = localStorage.getItem("savedTime");
+
+    if (savedTime) {
+      syncAllTimes(savedTime);
+    }
+
+    timeInputs.forEach((input) => {
+        input.value = time;
+      });
+
+      localStorage.setItem("savedTime", time);
+    }
+
+    function lockTime(input) {
+      syncAllTimes(input.value || "13:50");
+      input.readOnly = true;
+      input.classList.remove("editing");
+      input.blur();
+    }
+
+    timeInputs.forEach((input) => {
+      input.addEventListener("dblclick", () => {
+        input.readOnly = false;
+        input.classList.add("editing");
+        input.focus();
+        input.select();
+      });
+
+      input.addEventListener("input", () => {
+        input.value = normalizeTime(input.value);
+        syncAllTimes(input.value);
+      });
+
+      input.addEventListener("blur", () => lockTime(input));
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === "Escape") lockTime(input);
+      });
+    });
 
     const regionInput = document.getElementById("regionValue");
 
@@ -309,6 +392,16 @@
       regionInput.setSelectionRange(regionInput.value.length, regionInput.value.length);
       regionInput.blur();
     }
+
+    const savedRegion = localStorage.getItem("savedRegion");
+
+    if (savedRegion) {
+      regionInput.value = savedRegion;
+    }
+
+    regionInput.addEventListener("input", () => {
+      localStorage.setItem("savedRegion", regionInput.value);
+    });
 
     regionInput.addEventListener("blur", lockRegion);
     regionInput.addEventListener("keydown", (event) => {

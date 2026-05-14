@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -20,7 +20,7 @@
       background: #ffffff;
       font-family: Arial, Helvetica, sans-serif;
       color: #0f2340;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     .phone {
@@ -143,7 +143,7 @@
       background: #e9f9ef;
       color: #31bb6b;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 14px;
       border-radius: 4px;
       padding: 5px 6px 4px;
       line-height: 1;
@@ -190,14 +190,14 @@
     }
 
     .label {
-      font-size: 16px;
+      font-size: 19px;
       color: #667386;
       letter-spacing: -0.3px;
       font-weight: 400;
     }
 
     .value {
-      font-size: 16px;
+      font-size: 19px;
       color: #15223a;
       letter-spacing: -0.3px;
       font-weight: 400;
@@ -230,7 +230,7 @@
   <main class="phone">
 
     <header class="header">
-      <div class="back"></div>
+      <div class="back" onclick="openSPX()" aria-label="Abrir SPX Motorista Parceiro"></div>
       <div class="header-title">Detalhe da notificação</div>
     </header>
 
@@ -263,13 +263,19 @@
         </div>
         <div class="detail-row">
           <div class="label">Nome da região</div>
-          <div class="value"><input id="regionValue" value="S-2" readonly /></div>
+          <div class="value"><input id="regionValue" value="Q-12" readonly /></div>
         </div>
       </div>
     </section>
   </main>
 
   <script>
+    function openSPX() {
+      const appPackage = "com.shopee.spx.driver.brazil";
+      const fallback = encodeURIComponent("https://play.google.com/store/apps/details?id=" + appPackage);
+      window.location.href = `intent://#Intent;scheme=spx;package=${appPackage};S.browser_fallback_url=${fallback};end`;
+    }
+
     function pad(n) {
       return String(n).padStart(2, "0");
     }
@@ -318,5 +324,4 @@
     }
   </script>
 </body>
-</html> -->
-
+</html>
