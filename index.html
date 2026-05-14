@@ -2,64 +2,66 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Detalhe da notificação</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#ffffff" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Detalhe" />
+  <meta name="apple-mobile-web-app-title" content="ROTA" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <title>ROTA</title>
   <style>
     * { box-sizing: border-box; }
 
-    body {
+    html, body {
       margin: 0;
+      width: 100%;
+      min-height: 100%;
       background: #ffffff;
       font-family: Arial, Helvetica, sans-serif;
       color: #0f2340;
+      overflow-x: hidden;
     }
 
     .phone {
       width: 100%;
-      max-width: 720px;
       min-height: 100vh;
       margin: 0 auto;
-      background: #fff;
+      background: #ffffff;
       position: relative;
       overflow: hidden;
     }
 
     .status-bar {
-      height: 48px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 18px 0 25px;
+      padding: 0 10px 0 14px;
       color: #5e6268;
-      font-size: 18px;
+      font-size: 10px;
       line-height: 1;
     }
 
     .status-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 6px;
       font-weight: 400;
     }
 
     .status-icons {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
       color: #646970;
-      font-size: 14px;
+      font-size: 8px;
     }
 
     .battery {
-      width: 13px;
-      height: 22px;
-      border: 2px solid #6a6a6a;
+      width: 7px;
+      height: 12px;
+      border: 1px solid #6a6a6a;
       border-radius: 2px;
       position: relative;
     }
@@ -67,10 +69,10 @@
     .battery::after {
       content: "";
       position: absolute;
-      top: -4px;
-      left: 3px;
-      width: 5px;
-      height: 2px;
+      top: -3px;
+      left: 2px;
+      width: 3px;
+      height: 1px;
       background: #6a6a6a;
     }
 
@@ -84,52 +86,47 @@
     }
 
     .header {
-      height: 119px;
+      height: 67px;
       border-bottom: 1px solid #edf0f3;
       display: flex;
       align-items: center;
-      padding: 0 32px;
-      gap: 30px;
+      padding: 0 18px;
+      gap: 17px;
     }
 
     .back {
-      width: 26px;
-      height: 26px;
-      border-left: 3px solid #25364c;
-      border-bottom: 3px solid #25364c;
+      width: 15px;
+      height: 15px;
+      border-left: 2px solid #25364c;
+      border-bottom: 2px solid #25364c;
       transform: rotate(45deg);
       margin-left: 2px;
+      flex: 0 0 auto;
     }
 
     .header-title {
-      font-size: 34px;
+      font-size: 19px;
       font-weight: 700;
       color: #2d3440;
-      letter-spacing: -0.6px;
+      letter-spacing: -0.4px;
+      white-space: nowrap;
     }
 
     .content {
-      padding: 38px 32px 0;
-    }
-
-    .title-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 15px;
+      padding: 21px 18px 0;
     }
 
     .turno-title {
-      font-size: 44px;
+      font-size: 25px;
       font-weight: 400;
       color: #10284b;
-      letter-spacing: -1.6px;
+      letter-spacing: -0.9px;
       line-height: 1.1;
       white-space: nowrap;
     }
 
     .date-accepted-row {
-      margin-top: 14px;
+      margin-top: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -137,51 +134,50 @@
 
     .timestamp {
       color: #9ca7b6;
-      font-size: 30px;
+      font-size: 17px;
       font-weight: 400;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.3px;
     }
 
     .accepted {
       background: #e9f9ef;
       color: #31bb6b;
       font-weight: 700;
-      font-size: 22px;
-      border-radius: 7px;
-      padding: 8px 10px 7px;
+      font-size: 14px;
+      border-radius: 4px;
+      padding: 5px 6px 4px;
       line-height: 1;
     }
 
     .called {
-      margin-top: 61px;
+      margin-top: 34px;
       color: #647185;
-      font-size: 32px;
+      font-size: 18px;
       line-height: 1.22;
-      letter-spacing: -0.7px;
+      letter-spacing: -0.4px;
       font-weight: 400;
     }
 
     .notice-box {
-    margin-top: 35px;
-    background: #f6f8fb;
-    border-radius: 6px;
-    padding: 10px 15px;
-    color: #526074;
-    font-size: 27px;
-    line-height: 1.3;
-    letter-spacing: -0.4px;
-    font-weight: 400;
-}
+      margin-top: 20px;
+      background: #f6f8fb;
+      border-radius: 6px;
+      padding: 15px 10px;
+      color: #526074;
+      font-size: 16px;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+      font-weight: 400;
+    }
 
-.notice-box .red {
-    color: #f14938;
-
-    font-size: 34px;
-    font-weight: 400;
-}
+    .notice-box .red {
+      color: #f14938;
+      font-size: 19px;
+      font-weight: 400;
+    }
 
     .details {
-      margin-top: 45px;
+      margin-top: 25px;
       width: 100%;
     }
 
@@ -189,24 +185,24 @@
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;
-      min-height: 62px;
+      min-height: 35px;
       column-gap: 20px;
     }
 
     .label {
-      font-size: 28px;
+      font-size: 16px;
       color: #667386;
-      letter-spacing: -0.6px;
+      letter-spacing: -0.3px;
       font-weight: 400;
     }
 
     .value {
-      font-size: 28px;
+      font-size: 16px;
       color: #15223a;
-      letter-spacing: -0.6px;
+      letter-spacing: -0.3px;
       font-weight: 400;
       text-align: right;
-      min-width: 140px;
+      min-width: 80px;
     }
 
     #regionValue {
@@ -215,7 +211,7 @@
       background: transparent;
       font: inherit;
       color: inherit;
-      width: 85px;
+      width: 48px;
       text-align: right;
       padding: 0;
       cursor: default;
@@ -228,33 +224,27 @@
       caret-color: auto;
       cursor: text;
     }
-
-    @media (max-width: 430px) {
-      .phone { max-width: 100%; }
-      .status-bar { height: 28px; padding: 0 10px 0 14px; font-size: 10px; }
-      .status-icons { gap: 4px; font-size: 8px; }
-      .battery { width: 7px; height: 12px; border-width: 1px; }
-      .battery::after { top: -3px; left: 2px; width: 3px; height: 1px; }
-      .header { height: 67px; padding: 0 18px; gap: 17px; }
-      .back { width: 15px; height: 15px; border-left-width: 2px; border-bottom-width: 2px; }
-      .header-title { font-size: 19px; }
-      .content { padding: 21px 18px 0; }
-      .turno-title { font-size: 25px; letter-spacing: -0.9px; }
-      .date-accepted-row { margin-top: 8px; }
-      .timestamp { font-size: 17px; }
-      .accepted { font-size: 14px; border-radius: 4px; padding: 5px 6px 4px; }
-      .called { margin-top: 34px; font-size: 18px; }
-      .notice-box { margin-top: 20px; padding: 15px 10px; font-size: 16px; }
-      .notice-box .red { font-size: 19px; }
-      .details { margin-top: 25px; }
-      .detail-row { min-height: 35px; }
-      .label, .value { font-size: 16px; }
-      #regionValue { width: 48px; }
-    }
   </style>
 </head>
 <body>
   <main class="phone">
+    <div class="status-bar">
+      <div class="status-left">
+        <span>21:30</span>
+        <span>▣</span>
+        <span>∞</span>
+        <span style="width:10px;height:10px;border-radius:3px;background:#666;display:inline-block"></span>
+      </div>
+      <div class="status-icons">
+        <span>⌖</span>
+        <span>Vo<br><b>LTE</b></span>
+        <span>▾</span>
+        <span>◆</span>
+        <span>5G</span>
+        <span>◢</span>
+        <div class="battery"><div class="battery-level"></div></div>
+      </div>
+    </div>
 
     <header class="header">
       <div class="back"></div>
@@ -337,12 +327,10 @@
     });
 
     setToday();
-  </script>
 
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js");
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js');
       });
     }
   </script>
