@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalhe da notificação</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Detalhe" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #0f2340;
+    }
+
+    .phone {
+      width: 100%;
+      max-width: 720px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .status-bar {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px 0 25px;
+      color: #5e6268;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 400;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #646970;
+      font-size: 14px;
+    }
+
+    .battery {
+      width: 13px;
+      height: 22px;
+      border: 2px solid #6a6a6a;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .battery::after {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 3px;
+      width: 5px;
+      height: 2px;
+      background: #6a6a6a;
+    }
+
+    .battery-level {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 18%;
+      background: #d74732;
+    }
+
+    .header {
+      height: 119px;
+      border-bottom: 1px solid #edf0f3;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      gap: 30px;
+    }
+
+    .back {
+      width: 26px;
+      height: 26px;
+      border-left: 3px solid #25364c;
+      border-bottom: 3px solid #25364c;
+      transform: rotate(45deg);
+      margin-left: 2px;
+    }
+
+    .header-title {
+      font-size: 34px;
+      font-weight: 700;
+      color: #2d3440;
+      letter-spacing: -0.6px;
+    }
+
+    .content {
+      padding: 38px 32px 0;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .turno-title {
+      font-size: 44px;
+      font-weight: 400;
+      color: #10284b;
+      letter-spacing: -1.6px;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .date-accepted-row {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .timestamp {
+      color: #9ca7b6;
+      font-size: 30px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+    }
+
+    .accepted {
+      background: #e9f9ef;
+      color: #31bb6b;
+      font-weight: 700;
+      font-size: 22px;
+      border-radius: 7px;
+      padding: 8px 10px 7px;
+      line-height: 1;
+    }
+
+    .called {
+      margin-top: 61px;
+      color: #647185;
+      font-size: 32px;
+      line-height: 1.22;
+      letter-spacing: -0.7px;
+      font-weight: 400;
+    }
+
+    .notice-box {
+    margin-top: 35px;
+    background: #f6f8fb;
+    border-radius: 6px;
+    padding: 10px 15px;
+    color: #526074;
+    font-size: 27px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+    font-weight: 400;
+}
+
+.notice-box .red {
+    color: #f14938;
+
+    font-size: 34px;
+    font-weight: 400;
+}
+
+    .details {
+      margin-top: 45px;
+      width: 100%;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      min-height: 62px;
+      column-gap: 20px;
+    }
+
+    .label {
+      font-size: 28px;
+      color: #667386;
+      letter-spacing: -0.6px;
+      font-weight: 400;
+    }
+
+    .value {
+      font-size: 28px;
+      color: #15223a;
+      letter-spacing: -0.6px;
+      font-weight: 400;
+      text-align: right;
+      min-width: 140px;
+    }
+
+    #regionValue {
+      border: none;
+      outline: none;
+      background: transparent;
+      font: inherit;
+      color: inherit;
+      width: 85px;
+      text-align: right;
+      padding: 0;
+      cursor: default;
+      user-select: none;
+      caret-color: transparent;
+    }
+
+    #regionValue.editing {
+      user-select: text;
+      caret-color: auto;
+      cursor: text;
+    }
+
+    @media (max-width: 430px) {
+      .phone { max-width: 100%; }
+      .status-bar { height: 28px; padding: 0 10px 0 14px; font-size: 10px; }
+      .status-icons { gap: 4px; font-size: 8px; }
+      .battery { width: 7px; height: 12px; border-width: 1px; }
+      .battery::after { top: -3px; left: 2px; width: 3px; height: 1px; }
+      .header { height: 67px; padding: 0 18px; gap: 17px; }
+      .back { width: 15px; height: 15px; border-left-width: 2px; border-bottom-width: 2px; }
+      .header-title { font-size: 19px; }
+      .content { padding: 21px 18px 0; }
+      .turno-title { font-size: 25px; letter-spacing: -0.9px; }
+      .date-accepted-row { margin-top: 8px; }
+      .timestamp { font-size: 17px; }
+      .accepted { font-size: 14px; border-radius: 4px; padding: 5px 6px 4px; }
+      .called { margin-top: 34px; font-size: 18px; }
+      .notice-box { margin-top: 20px; padding: 15px 10px; font-size: 16px; }
+      .notice-box .red { font-size: 19px; }
+      .details { margin-top: 25px; }
+      .detail-row { min-height: 35px; }
+      .label, .value { font-size: 16px; }
+      #regionValue { width: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone">
+
+    <header class="header">
+      <div class="back"></div>
+      <div class="header-title">Detalhe da notificação</div>
+    </header>
+
+    <section class="content">
+      <div class="turno-title">Turno:<span id="todayTitle"></span> 13:50 - 13:50</div>
+
+      <div class="date-accepted-row">
+        <div class="timestamp"><span id="todayTimestamp"></span> 10:12</div>
+        <div class="accepted">Aceito</div>
+      </div>
+
+      <div class="called">Você foi chamado para um próximo turno.</div>
+
+      <div class="notice-box">
+        Por favor, chegue ao hub às <span class="red" id="noticeDate"></span> <span class="red">13:50</span> para começar a tarefa de hoje.
+      </div>
+
+      <div class="details">
+        <div class="detail-row">
+          <div class="label">Chamada do Hub</div>
+          <div class="value">OF Hub_SP_Lapa</div>
+        </div>
+        <div class="detail-row">
+          <div class="label">Data do Turno</div>
+          <div class="value" id="shiftDate"></div>
+        </div>
+        <div class="detail-row">
+          <div class="label">Horário do Turno</div>
+          <div class="value">13:50-13:50</div>
+        </div>
+        <div class="detail-row">
+          <div class="label">Nome da região</div>
+          <div class="value"><input id="regionValue" value="S-2" readonly /></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function setToday() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = pad(now.getMonth() + 1);
+      const dd = pad(now.getDate());
+      const iso = `${yyyy}-${mm}-${dd}`;
+      const br = `${dd}/${mm}`;
+
+      document.getElementById("todayTitle").textContent = iso;
+      document.getElementById("todayTimestamp").textContent = iso;
+      document.getElementById("shiftDate").textContent = iso;
+      document.getElementById("noticeDate").textContent = br;
+    }
+
+    const regionInput = document.getElementById("regionValue");
+
+    regionInput.addEventListener("dblclick", () => {
+      regionInput.readOnly = false;
+      regionInput.classList.add("editing");
+      regionInput.focus();
+      regionInput.select();
+    });
+
+    function lockRegion() {
+      regionInput.readOnly = true;
+      regionInput.classList.remove("editing");
+      regionInput.setSelectionRange(regionInput.value.length, regionInput.value.length);
+      regionInput.blur();
+    }
+
+    regionInput.addEventListener("blur", lockRegion);
+    regionInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === "Escape") lockRegion();
+    });
+
+    setToday();
+  </script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js");
+      });
+    }
+  </script>
+</body>
+</html>
