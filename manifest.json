@@ -1,7 +1,7 @@
 {
   "name": "Detalhe da Notificação",
-  "short_name": "Notificação",
-  "description": "Clone da tela de detalhe da notificação",
+  "short_name": "ROTA",
+  "description": "Confirmação de rota",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
