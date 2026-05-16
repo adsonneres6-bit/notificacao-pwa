@@ -1,0 +1,156 @@
+function openSPX() {
+    const appPackage = "com.shopee.spx.driver.brazil";
+    const fallback = encodeURIComponent("https://play.google.com/store/apps/details?id=" + appPackage);
+    window.location.href = `intent://#Intent;scheme=spx;package=${appPackage};S.browser_fallback_url=${fallback};end`;
+}
+
+function pad(n) {
+    return String(n).padStart(2, "0");
+}
+
+function setToday() {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = pad(now.getMonth() + 1);
+    const dd = pad(now.getDate());
+    const iso = `${yyyy}-${mm}-${dd}`;
+
+    if (!localStorage.getItem("savedDate")) {
+        localStorage.setItem("savedDate", iso);
+    }
+
+    const savedDate = localStorage.getItem("savedDate");
+
+    document.getElementById("todayTitle").textContent = savedDate;
+    document.getElementById("todayTimestamp").textContent = savedDate;
+    document.getElementById("shiftDate").textContent = savedDate;
+
+    const parts = savedDate.split("-");
+    document.getElementById("noticeDate").textContent = `${parts[2]}/${parts[1]}`;
+}
+
+const timeInputs = Array.from(document.querySelectorAll(".timeEditable"));
+
+// CARREGA HORÁRIO SALVO
+const savedTime = localStorage.getItem("savedTime");
+
+if (savedTime) {
+    timeInputs.forEach((input) => {
+        input.value = savedTime;
+    });
+}
+
+function normalizeTime(value) {
+    const onlyNumbers = value.replace(/[^0-9]/g, "").slice(0, 4);
+
+    if (onlyNumbers.length <= 2) return onlyNumbers;
+
+    return onlyNumbers.slice(0, 2) + ":" + onlyNumbers.slice(2);
+}
+
+function syncAllTimes(value) {
+    const time = normalizeTime(value);
+    const digits = time.replace(/[^0-9]/g, "");
+
+    if (digits.length !== 4) return;
+
+    // Atualiza todos os campos
+    timeInputs.forEach((input) => {
+        input.value = time;
+    });
+
+    // Salva no localStorage
+    localStorage.setItem("savedTime", time);
+}
+
+function lockTime(input) {
+    const typed = normalizeTime(input.value);
+    const digits = typed.replace(/[^0-9]/g, "");
+    const saved = localStorage.getItem("savedTime") || "13:50";
+
+    if (digits.length === 4) {
+        syncAllTimes(typed);
+    } else {
+        timeInputs.forEach((item) => {
+            item.value = saved;
+        });
+    }
+
+    input.readOnly = true;
+    input.classList.remove("editing");
+    input.blur();
+}
+
+timeInputs.forEach((input) => {
+
+    input.addEventListener("dblclick", () => {
+        input.readOnly = false;
+        input.classList.add("editing");
+        input.focus();
+        input.select();
+    });
+
+    input.addEventListener("input", () => {
+        input.value = normalizeTime(input.value);
+
+        const digits = input.value.replace(/[^0-9]/g, "");
+
+        if (digits.length === 4) {
+            syncAllTimes(input.value);
+        }
+    });
+
+    input.addEventListener("blur", () => lockTime(input));
+
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === "Escape") {
+            lockTime(input);
+        }
+    });
+});
+
+// REGIÃO
+const regionInput = document.getElementById("regionValue");
+
+// CARREGA REGIÃO SALVA
+const savedRegion = localStorage.getItem("savedRegion");
+
+if (savedRegion) {
+    regionInput.value = savedRegion;
+}
+
+regionInput.addEventListener("dblclick", () => {
+    regionInput.readOnly = false;
+    regionInput.classList.add("editing");
+    regionInput.focus();
+    regionInput.select();
+});
+
+function lockRegion() {
+    regionInput.readOnly = true;
+    regionInput.classList.remove("editing");
+
+    localStorage.setItem("savedRegion", regionInput.value);
+
+    regionInput.blur();
+}
+
+regionInput.addEventListener("input", () => {
+    localStorage.setItem("savedRegion", regionInput.value);
+});
+
+regionInput.addEventListener("blur", lockRegion);
+
+regionInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === "Escape") {
+        lockRegion();
+    }
+});
+
+setToday();
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js");
+    });
+}
