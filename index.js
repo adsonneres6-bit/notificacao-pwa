@@ -183,6 +183,11 @@ if ("serviceWorker" in navigator) {
 }
 
 const todayTime = document.getElementById("todayTime");
+const savedTodayTime = localStorage.getItem("savedTodayTime");
+
+if (savedTodayTime) {
+    todayTime.textContent = savedTodayTime;
+}
 
 todayTime.addEventListener("dblclick", () => {
     todayTime.contentEditable = "true";
@@ -205,6 +210,10 @@ function finishTimeEdit() {
     }
 
     todayTime.textContent = value;
+
+    // Salva no localStorage
+    localStorage.setItem("savedTodayTime", value);
+
     todayTime.contentEditable = "false";
     todayTime.classList.remove("editing");
 }
