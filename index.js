@@ -21,12 +21,17 @@ function setToday() {
 
     const savedDate = localStorage.getItem("savedDate");
 
-    document.getElementById("todayTitle").textContent = savedDate;
-    document.getElementById("todayTimestamp").textContent = savedDate;
-    document.getElementById("shiftDate").textContent = savedDate;
+    // Formata de AAAA-MM-DD
+    const [year, month, day] = savedDate.split("-");
 
-    const parts = savedDate.split("-");
-    document.getElementById("noticeDate").textContent = `${parts[2]}/${parts[1]}`;
+    const formattedDate = `${day}/${month}/${year}`; // 04/08/2026
+    const shortDate = `${day}/${month}`;             // 04/08
+
+    document.getElementById("todayTitle").textContent = shortDate;
+    document.getElementById("todayTimestamp").textContent = formattedDate;
+    document.getElementById("shiftDate").textContent = formattedDate;
+
+    document.getElementById("noticeDate").textContent = shortDate;
 }
 
 const timeInputs = Array.from(document.querySelectorAll(".timeEditable"));
@@ -126,6 +131,28 @@ regionInput.addEventListener("dblclick", () => {
     regionInput.select();
 });
 
+function formatRegion(value) {
+    // Remove o hífen existente e coloca tudo em maiúsculo
+    value = value.toUpperCase().replace("-", "");
+
+    // Ex.: S4 -> S-4 | a12 -> A-12
+    return value.replace(/^([A-Z]+)(\d+)$/, "$1-$2");
+}
+
+function finishRegionEdit() {
+    regionInput.value = formatRegion(regionInput.value);
+    regionInput.readOnly = true;
+    regionInput.classList.remove("editing");
+}
+
+regionInput.addEventListener("blur", finishRegionEdit);
+
+regionInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        finishRegionEdit();
+    }
+});
+
 function lockRegion() {
     regionInput.readOnly = true;
     regionInput.classList.remove("editing");
@@ -154,3 +181,39 @@ if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./sw.js");
     });
 }
+
+const todayTime = document.getElementById("todayTime");
+
+todayTime.addEventListener("dblclick", () => {
+    todayTime.contentEditable = "true";
+    todayTime.classList.add("editing");
+    todayTime.focus();
+
+    // Seleciona todo o texto
+    const range = document.createRange();
+    range.selectNodeContents(todayTime);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+});
+
+function finishTimeEdit() {
+    let value = todayTime.textContent.replace(/\D/g, "");
+
+    if (value.length === 4) {
+        value = `${value.slice(0, 2)}:${value.slice(2)}`;
+    }
+
+    todayTime.textContent = value;
+    todayTime.contentEditable = "false";
+    todayTime.classList.remove("editing");
+}
+
+todayTime.addEventListener("blur", finishTimeEdit);
+
+todayTime.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault(); // evita quebra de linha
+        finishTimeEdit();
+    }
+});

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,221 +10,13 @@
   <meta name="apple-mobile-web-app-title" content="ROTA" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="stylesheet" href="index.css">
   <title>ROTA</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
-      background: #ffffff;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #0f2340;
-      overflow-x: hidden;
-    }
-
-    .phone {
-      width: 100%;
-      min-height: 100vh;
-      margin: 0 auto;
-      background: #ffffff;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header {
-      height: 67px;
-      border-bottom: 1px solid #edf0f3;
-      display: flex;
-      align-items: center;
-      padding: 0 18px;
-      gap: 17px;
-    }
-
-    .back {
-      width: 15px;
-      height: 15px;
-      border-left: 2px solid #25364c;
-      border-bottom: 2px solid #25364c;
-      transform: rotate(45deg);
-      margin-left: 2px;
-      flex: 0 0 auto;
-    }
-
-    .header-title {
-      font-size: 19px;
-      font-weight: 700;
-      color: #2d3440;
-      letter-spacing: -0.4px;
-      white-space: nowrap;
-    }
-
-    .content {
-      padding: 21px 18px 0;
-    }
-
-    .turno-title {
-      font-size: 25px;
-      font-weight: 600;
-      color: #10284b;
-      letter-spacing: -0.9px;
-      line-height: 1.55;
-      white-space: nowrap;
-      overflow: visible;
-      padding-top: 8px;
-      padding-bottom: 6px;
-    }
-
-    .date-accepted-row {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .timestamp {
-      color: #9ca7b6;
-      font-size: 17px;
-      font-weight: 400;
-      letter-spacing: -0.3px;
-    }
-
-    .accepted {
-      background: #E3F7EB;
-      color: #37A865;
-      font-weight: 700;
-      font-size: 14px;
-      border-radius: 4px;
-      padding: 5px 6px 4px;
-      line-height: 1;
-    }
-
-    .called {
-      margin-top: 34px;
-      color: #647185;
-      font-size: 18px;
-      line-height: 1.22;
-      letter-spacing: -0.4px;
-      font-weight: 400;
-    }
-
-    .notice-box {
-      margin-top: 20px;
-      background: #f6f8fb;
-      border-radius: 6px;
-      padding: 15px 10px;
-      color: #526074;
-      font-size: 18px;
-      line-height: 1.3;
-      letter-spacing: -0.3px;
-      font-weight: 400;
-    }
-
-    .notice-box .red {
-      color: #f14938;
-      font-size: 19px;
-      font-weight: 400;
-    }
-
-    .details {
-      margin-top: 25px;
-      width: 100%;
-    }
-
-    .detail-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      min-height: 35px;
-      column-gap: 20px;
-    }
-
-    .label {
-      font-size: 19px;
-      color: #667386;
-      letter-spacing: -0.3px;
-      font-weight: 400;
-    }
-
-    .value {
-      font-size: 19px;
-      color: #15223a;
-      letter-spacing: -0.3px;
-      font-weight: 400;
-      text-align: right;
-      min-width: 80px;
-    }
-
-    .timeEditable {
-      border: none;
-      outline: none;
-      background: transparent;
-      font: inherit;
-      font-size: inherit;
-      font-family: inherit;
-      font-weight: inherit;
-      color: inherit;
-      height: auto;
-      padding: 0;
-      margin: -4px;
-      line-height: inherit;
-      display: inline-block;
-      text-align: center;
-      cursor: default;
-      user-select: none;
-      caret-color: transparent;
-      appearance: none;
-      -webkit-appearance: none;
-      vertical-align: baseline;
-      transform: none;
-      box-sizing: content-box;
-    }
-
-    .timeEditable.red {
-      color: #f14938;
-    }
-
-    #timeTitleStart,
-    #timeTitleEnd,
-    #timeNotice,
-    #timeDetailStart,
-    #timeDetailEnd {
-      width: 4.5ch;
-      min-width: 5.4ch;
-      max-width: 5.4ch;
-    }
-
-    .timeEditable.editing {
-      user-select: text;
-      caret-color: auto;
-      cursor: text;
-    }
-
-    #regionValue {
-      border: none;
-      outline: none;
-      background: transparent;
-      font: inherit;
-      color: inherit;
-      width: 48px;
-      text-align: right;
-      padding: 0;
-      cursor: default;
-      user-select: none;
-      caret-color: transparent;
-    }
-
-    #regionValue.editing {
-      user-select: text;
-      caret-color: auto;
-      cursor: text;
-    }
-  </style>
 </head>
+
 <body>
   <main class="phone">
-      </div>
+    </div>
     </div>
 
     <header class="header">
@@ -232,17 +25,22 @@
     </header>
 
     <section class="content">
-      <div class="turno-title">Turno:<span id="todayTitle"></span> <input class="timeEditable" id="timeTitleStart" value="13:50" readonly /> - <input class="timeEditable" id="timeTitleEnd" value="13:50" readonly /></div>
+      <div class="turno-title"><span id="todayTitle"></span> <input class="timeEditable" id="timeTitleStart"
+          value="13:50" readonly /> - <input class="timeEditable" id="timeTitleEnd" value="13:50" readonly /></div>
 
       <div class="date-accepted-row">
-        <div class="timestamp"><span id="todayTimestamp"></span> 21:07</div>
+        <div class="timestamp">
+          <span id="todayTimestamp"></span>
+          <span id="todayTime">21:07</span>
+        </div>
         <div class="accepted">Aceito</div>
       </div>
 
-      <div class="called">Você foi chamado para um próximo turno.</div>
+      <div class="called">Your have accepted this route.</div>
 
       <div class="notice-box">
-        Por favor, chegue ao hub às <span class="red" id="noticeDate"></span> <input class="timeEditable red" id="timeNotice" value="13:50" readonly /> para começar a tarefa de hoje.
+        Por favor, chegue ao hub às <span class="red" id="noticeDate"></span> <input class="timeEditable red"
+          id="timeNotice" value="13:50" readonly /> para começar a tarefa de hoje.
       </div>
 
       <div class="details">
@@ -251,21 +49,25 @@
           <div class="value">OF Hub_SP_Lapa</div>
         </div>
         <div class="detail-row">
+          <div class="label">Nome da região</div>
+          <div class="value"><input id="regionValue" value="S-4" readonly /></div>
+        </div>
+        <div class="detail-row">
+
           <div class="label">Data do Turno</div>
           <div class="value" id="shiftDate"></div>
         </div>
         <div class="detail-row">
           <div class="label">Horário do Turno</div>
-          <div class="value"><input class="timeEditable" id="timeDetailStart" value="13:50" readonly />-<input class="timeEditable" id="timeDetailEnd" value="13:50" readonly /></div>
+          <div class="value"><input class="timeEditable" id="timeDetailStart" value="13:50" readonly /> - <input
+              class="timeEditable" id="timeDetailEnd" value="13:50" readonly /></div>
         </div>
-        <div class="detail-row">
-          <div class="label">Nome da região</div>
-          <div class="value"><input id="regionValue" value="S-4" readonly /></div>
-        </div>
+
       </div>
     </section>
   </main>
 
   <script src="index.js"></script>
 </body>
+
 </html>
