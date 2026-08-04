@@ -217,3 +217,22 @@ todayTime.addEventListener("keydown", (e) => {
         finishTimeEdit();
     }
 });
+
+const hubText = document.getElementById("hubText");
+const hubSelect = document.getElementById("hubSelect");
+
+hubText.addEventListener("dblclick", () => {
+    hubText.style.display = "none";
+    hubSelect.style.display = "inline-block";
+    hubSelect.value = hubText.textContent;
+    hubSelect.focus();
+});
+
+function finishHubEdit() {
+    hubText.textContent = hubSelect.value;
+    hubSelect.style.display = "none";
+    hubText.style.display = "inline";
+}
+
+hubSelect.addEventListener("change", finishHubEdit);
+hubSelect.addEventListener("blur", finishHubEdit);

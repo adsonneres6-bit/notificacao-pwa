@@ -206,3 +206,12 @@
       cursor: text;
     }
 
+    #hubSelect {
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    outline: none;
+    padding: 0;
+}
+

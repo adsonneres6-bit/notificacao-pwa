@@ -43,15 +43,24 @@
           id="timeNotice" value="13:50" readonly /> para começar a tarefa de hoje.
       </div>
 
-      <div class="details">
-        <div class="detail-row">
-          <div class="label">Chamada do Hub</div>
-          <div class="value">OF Hub_SP_Lapa</div>
-        </div>
+      <div class="detail-row">
+    <div class="label">Chamada do Hub</div>
+
+    <div class="value">
+        <span id="hubText">OF Hub_SP_Lapa</span>
+
+        <select id="hubSelect" style="display:none;">
+            <option>OF Hub_SP_Lapa</option>
+            <option>OF Hub_SP_Guarulhos</option> 
+        </select>
+    </div>
+</div>
+
         <div class="detail-row">
           <div class="label">Nome da região</div>
           <div class="value"><input id="regionValue" value="S-4" readonly /></div>
         </div>
+
         <div class="detail-row">
 
           <div class="label">Data do Turno</div>
