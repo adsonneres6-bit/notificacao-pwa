@@ -227,18 +227,38 @@ todayTime.addEventListener("keydown", (e) => {
     }
 });
 
+// HUB
 const hubText = document.getElementById("hubText");
 const hubSelect = document.getElementById("hubSelect");
+
+// CARREGA HUB SALVO
+const savedHub = localStorage.getItem("savedHub");
+
+if (savedHub) {
+    hubText.textContent = savedHub;
+    hubSelect.value = savedHub;
+}
 
 hubText.addEventListener("dblclick", () => {
     hubText.style.display = "none";
     hubSelect.style.display = "inline-block";
+
+    // Seleciona o valor atual
     hubSelect.value = hubText.textContent;
+
     hubSelect.focus();
 });
 
 function finishHubEdit() {
-    hubText.textContent = hubSelect.value;
+    const selectedHub = hubSelect.value;
+
+    // Atualiza o texto na tela
+    hubText.textContent = selectedHub;
+
+    // Salva no localStorage
+    localStorage.setItem("savedHub", selectedHub);
+
+    // Volta para o modo normal
     hubSelect.style.display = "none";
     hubText.style.display = "inline";
 }
